@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Han" Class="DataClassesTMDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=10.35.70.10;Initial Catalog=Han;User ID=HanRW" SettingsObjectName="TmDilYonet.Properties.Settings" SettingsPropertyName="HanConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblUygulamaDilCeviri" Member="tblUygulamaDilCeviris">
+    <Type Name="tblUygulamaDilCeviri">
+      <Column Name="AutoId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UygulamaDilId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ResourceKey" Type="System.String" DbType="NVarChar(200) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ResourceValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
