@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TmDilYonet
@@ -60,6 +54,11 @@ namespace TmDilYonet
         {
             int dilCeviriId = Form1.DilCeviriId;
             lblHiddenDilCeviriId.Text = dilCeviriId.ToString();
+
+            txtResourceKey.Text = "";
+            txtResourceValue.Text = "";
+            txtUygulamaDilId.Text = "";
+
             if (dilCeviriId != 0)
             {
                 using (DataClassesTMDataContext db = new DataClassesTMDataContext())
