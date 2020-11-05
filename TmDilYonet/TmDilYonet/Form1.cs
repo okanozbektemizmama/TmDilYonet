@@ -37,7 +37,13 @@ namespace TmDilYonet
                     uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceKey.ToLower().Contains(AramaKey)).ToList();
                 else if (resourceValue && !String.IsNullOrWhiteSpace(AramaKey))
                     uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceValue.ToLower().Contains(AramaKey)).ToList();
-               
+                else
+                {
+                    if (uygulamaDilCeviris.Count > 50 )
+                        uygulamaDilCeviris = uygulamaDilCeviris.Take(50).ToList();
+                    
+                }
+                
             }
 
             return uygulamaDilCeviris;
