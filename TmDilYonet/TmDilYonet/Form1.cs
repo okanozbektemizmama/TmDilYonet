@@ -103,6 +103,7 @@ namespace TmDilYonet
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DilCeviriId = 0;
             DilCeviriEkle dilCeviriEkle = new DilCeviriEkle();
             this.Hide();
             dilCeviriEkle.Closed += (s, args) => this.Close();
