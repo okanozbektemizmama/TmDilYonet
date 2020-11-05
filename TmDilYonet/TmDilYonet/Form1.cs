@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.ExceptionServices;
+using System.Security;
 using System.Windows.Forms;
 
 namespace TmDilYonet
@@ -26,25 +28,32 @@ namespace TmDilYonet
         List<tblUygulamaDilCeviri> DilCevirileriGetir(string AramaKey = "", bool resourceKey = false, bool resourceValue = false)
         {
             List<tblUygulamaDilCeviri> uygulamaDilCeviris = new List<tblUygulamaDilCeviri>();
-            using (DataClassesTMDataContext db = new DataClassesTMDataContext())
-            {
-                AramaKey = AramaKey.ToLower();
-                uygulamaDilCeviris = db.tblUygulamaDilCeviris.ToList();
 
-                if (!String.IsNullOrWhiteSpace(AramaKey) && resourceKey == false && resourceValue == false)
-                    uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceKey.ToLower().Contains(AramaKey) || x.ResourceValue.ToLower().Contains(AramaKey)).ToList();
-                else if (resourceKey && !String.IsNullOrWhiteSpace(AramaKey))
-                    uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceKey.ToLower().Contains(AramaKey)).ToList();
-                else if (resourceValue && !String.IsNullOrWhiteSpace(AramaKey))
-                    uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceValue.ToLower().Contains(AramaKey)).ToList();
-                else
+            try
+            {
+                using (DataClassesTMDataContext db = new DataClassesTMDataContext())
                 {
-                    if (uygulamaDilCeviris.Count > 50 )
-                        uygulamaDilCeviris = uygulamaDilCeviris.Take(50).ToList();
-                    
+                    AramaKey = AramaKey.ToLower();
+                    uygulamaDilCeviris = db.tblUygulamaDilCeviris.ToList();
+
+                    if (!String.IsNullOrWhiteSpace(AramaKey) && resourceKey == false && resourceValue == false)
+                        uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceKey.ToLower().Contains(AramaKey) || x.ResourceValue.ToLower().Contains(AramaKey)).ToList();
+                    else if (resourceKey && !String.IsNullOrWhiteSpace(AramaKey))
+                        uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceKey.ToLower().Contains(AramaKey)).ToList();
+                    else if (resourceValue && !String.IsNullOrWhiteSpace(AramaKey))
+                        uygulamaDilCeviris = uygulamaDilCeviris.Where(x => x.ResourceValue.ToLower().Contains(AramaKey)).ToList();
+                    else
+                    {
+                        if (uygulamaDilCeviris.Count > 50)
+                            uygulamaDilCeviris = uygulamaDilCeviris.Take(50).ToList();
+                    }
                 }
-                
             }
+            catch (Exception)
+            {
+               
+            }
+            
 
             return uygulamaDilCeviris;
         }
@@ -52,43 +61,54 @@ namespace TmDilYonet
         private void DilleriDoldurGrid(List<tblUygulamaDilCeviri> uygulamaDilCeviris)
         {
 
-            dtViewDiller.Refresh();
-            dtViewDiller.DataSource = uygulamaDilCeviris;
-            dtViewDiller.AllowUserToAddRows = true;
+            try
+            {
+                var source = new BindingSource();
+                source.DataSource = uygulamaDilCeviris;
+                dtViewDiller.DataSource = source;
+                dtViewDiller.AllowUserToAddRows = false;
 
-            if (uygulamaDilCeviris.Count <= 0)
-                MessageBox.Show("Aradığınız kritere uygun kayıt bulunamadı.");
+                if (uygulamaDilCeviris.Count <= 0)
+                    MessageBox.Show("Aradığınız kritere uygun kayıt bulunamadı.");
+            }
+            catch (Exception ex)
+            {
+
+            }
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var dilCeviri = DilCevirileriGetir();
-            DilleriDoldurGrid(dilCeviri);
-
-        }
-
-        private void dtViewDiller_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 4)
+            try
             {
-                if (dtViewDiller.RowCount > 0)
-                {
-                    if (e.ColumnIndex == 4)
-                    {
-
-                    }
-                }
+                var dilCeviri = DilCevirileriGetir();
+                DilleriDoldurGrid(dilCeviri);
             }
+            catch (Exception ex)
+            {
+
+            }
+            
+
         }
 
         private void dtViewDiller_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = dtViewDiller.Rows[e.RowIndex];
-                string copy = row.Cells[2].Value.ToString();
-                Clipboard.SetText(copy);
+                try
+                {
+                    DataGridViewRow row = dtViewDiller.Rows[e.RowIndex];
+                    string copy = row.Cells[2].Value.ToString();
+                    Clipboard.SetText(copy);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                
 
             }
         }
@@ -100,8 +120,16 @@ namespace TmDilYonet
 
             if (dilCeviri.Count > 0)
             {
-                dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
-                Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                try
+                {
+                    dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
+                    Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                }
+                catch (Exception ex)
+                {
+
+                }
+                
             }
             
 
@@ -109,11 +137,19 @@ namespace TmDilYonet
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DilCeviriId = 0;
-            DilCeviriEkle dilCeviriEkle = new DilCeviriEkle();
-            this.Hide();
-            dilCeviriEkle.Closed += (s, args) => this.Close();
-            dilCeviriEkle.Show();
+            try
+            {
+                DilCeviriId = 0;
+                DilCeviriEkle dilCeviriEkle = new DilCeviriEkle();
+                this.Hide();
+                dilCeviriEkle.Closed += (s, args) => this.Close();
+                dilCeviriEkle.Show();
+            }
+            catch (Exception ex)
+            {
+
+            }
+           
         }
 
         private void txtArama_KeyDown(object sender, KeyEventArgs e)
@@ -125,8 +161,15 @@ namespace TmDilYonet
 
                 if (dilCeviri.Count > 0)
                 {
-                    dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
-                    Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                    try
+                    {
+                        dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
+                        Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }         
 
             }
@@ -192,8 +235,15 @@ namespace TmDilYonet
                 DilleriDoldurGrid(dilCeviri);
                 if (dilCeviri.Count > 0)
                 {
-                    dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
-                    Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                    try
+                    {
+                        dtViewDiller.CurrentCell = dtViewDiller.Rows[0].Cells[2];
+                        Clipboard.SetText(dtViewDiller.Rows[0].Cells[2].Value.ToString());
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }         
             }
         }

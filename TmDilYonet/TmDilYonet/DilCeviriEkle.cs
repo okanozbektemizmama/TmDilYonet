@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.ExceptionServices;
+using System.Security;
 using System.Windows.Forms;
 
 namespace TmDilYonet
 {
+    
+  
     public partial class DilCeviriEkle : Form
     {
+       
         public DilCeviriEkle()
         {
             InitializeComponent();

@@ -50,7 +50,6 @@
             this.dtViewDiller.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dtViewDiller.Size = new System.Drawing.Size(791, 444);
             this.dtViewDiller.TabIndex = 4;
-            this.dtViewDiller.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtViewDiller_CellContentClick);
             this.dtViewDiller.DoubleClick += new System.EventHandler(this.dtViewDiller_DoubleClick);
             // 
             // button1
