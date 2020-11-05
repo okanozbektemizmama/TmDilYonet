@@ -107,7 +107,7 @@ namespace TmDilYonet
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AutoId", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AutoId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int AutoId
 		{
 			get
@@ -127,7 +127,7 @@ namespace TmDilYonet
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UygulamaDilId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UygulamaDilId", DbType="Int NOT NULL")]
 		public int UygulamaDilId
 		{
 			get
@@ -147,7 +147,7 @@ namespace TmDilYonet
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ResourceKey", DbType="NVarChar(200) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ResourceKey", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
 		public string ResourceKey
 		{
 			get
